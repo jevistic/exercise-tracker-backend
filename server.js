@@ -5,6 +5,9 @@ const JWT = require('jsonwebtoken')
 const DB = require('./Config/Database');
 require('dotenv').config();
 
+const helmet = require("helmet");
+const compression = require("compression");
+
 const {JWT_KEY} = require('./config/keys')
 
 // Created Modules
@@ -20,6 +23,7 @@ DB();
 
 
 // Middlewares
+
 // parse res.body
 app.use(express.json())
 
@@ -28,6 +32,12 @@ app.use(cookieParser());
 
 // allow cors
 app.use(cors());
+
+// Compress all routes
+app.use(compression());
+
+//helmet
+app.use(helmet());
 
 // Custom Middlewares
 Middlewares(app, JWT);
@@ -236,9 +246,10 @@ app.get('/logout', (req, res)=>{
     res.send("Logged Out Successfully!")
 })
 
+
 const PORT = process.env.PORT || 3000;
 
 // Listening Server
 app.listen(PORT, ()=>{
-    console.log("App is listening at port 3000")
+    console.log("App is listening at port", PORT)
 })

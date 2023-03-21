@@ -16,6 +16,7 @@ const Authentication = (app, JWT) => {
             })
         }
     })
+
 }
 
 module.exports = Authentication;
