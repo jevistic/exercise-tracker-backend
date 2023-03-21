@@ -5,6 +5,8 @@ const JWT = require('jsonwebtoken')
 const DB = require('./Config/Database');
 require('dotenv').config();
 
+const {JWT_KEY} = require('./config/keys')
+
 // Created Modules
 const User = require("./Models/User");
 const Exercise = require("./Models/Exercise");
@@ -33,8 +35,8 @@ Middlewares(app, JWT);
 
 
 // Secret Key
-const jwt_key = process.env.JWT_KEY;
-console.log(jwt_key);
+// const JWT_KEY = process.env.JWT_KEY;
+console.log(JWT_KEY);
 
 
 // APIs
@@ -55,7 +57,7 @@ app.post('/login', async (req, res)=>{
             const obj = {
                 id:result._id
             }
-            const Token = JWT.sign(obj,jwt_key)
+            const Token = JWT.sign(obj,JWT_KEY)
             res.cookie("Token",Token);
             // res.json("Signed in as: " + result.firstname + " " + result.lastname);
             const data = {
@@ -85,7 +87,7 @@ app.post('/register',  async (req, res) => {
         const obj = {
             id:result["_id"]      
         }
-        const Token = JWT.sign(obj,jwt_key)
+        const Token = JWT.sign(obj,JWT_KEY)
         res.cookie("Token",Token)
         console.log(result)
         const data = {
