@@ -20,9 +20,21 @@ const Middlewares = require('./Middlewares/Middlewares')
 const app = express();
 DB();
 
+// Set up rate limiter: maximum of twenty requests per minute
+var RateLimit = require("express-rate-limit");
+var limiter = RateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 20,
+});
+
+
+
 
 
 // Middlewares
+
+// Apply rate limiter to all requests
+app.use(limiter);
 
 // parse res.body
 app.use(express.json())
