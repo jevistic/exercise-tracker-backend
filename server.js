@@ -5,9 +5,6 @@ const JWT = require('jsonwebtoken')
 const DB = require('./Config/Database');
 require('dotenv').config();
 
-const helmet = require("helmet");
-const compression = require("compression");
-
 const {JWT_KEY} = require('./config/keys')
 
 // Created Modules
@@ -20,21 +17,11 @@ const Middlewares = require('./Middlewares/Middlewares')
 const app = express();
 DB();
 
-// Set up rate limiter: maximum of twenty requests per minute
-var RateLimit = require("express-rate-limit");
-var limiter = RateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 20,
-});
-
 
 
 
 
 // Middlewares
-
-// Apply rate limiter to all requests
-app.use(limiter);
 
 // parse res.body
 app.use(express.json())
@@ -45,12 +32,6 @@ app.use(cookieParser());
 // allow cors
 app.use(cors());
 
-// Compress all routes
-app.use(compression());
-
-//helmet
-app.use(helmet());
-
 // Custom Middlewares
 Middlewares(app, JWT);
 
@@ -58,7 +39,7 @@ Middlewares(app, JWT);
 
 // Secret Key
 // const JWT_KEY = process.env.JWT_KEY;
-console.log(JWT_KEY);
+//console.log(JWT_KEY);
 
 
 // APIs
