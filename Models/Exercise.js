@@ -7,7 +7,7 @@ const Exercise = new Schema({
   name: {
     type: String,
     trim: true,
-    required: [true, "name is required"],
+    required: [true, "exercise name is required"],
   },
 
   description: {
@@ -17,13 +17,13 @@ const Exercise = new Schema({
 
   type: {
     type: String,
-    required: [true, "type is required"],
+    required: [true, "exercise type is required"],
     enum: ["walk", "swim", "hike", "run", "bicycle_ride"]
   },
 
   duration:{
     type: Number,
-    required: true
+    required: [true, 'exercise duration is required']
   },
 
   date: {

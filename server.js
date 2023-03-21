@@ -118,7 +118,8 @@ app.post('/register',  async (req, res) => {
 app.put('/updateUser',  async (req, res) => {
     
     try {
-        const id = req.data.id;
+        // const id = req.data.id;
+        const id = req.body._id;
         const {firstname, lastname, email, phone, password, dob, gender} = req.body;
         const result = await User.updateOne({_id: id}, {
             firstname: firstname,
@@ -128,11 +129,15 @@ app.put('/updateUser',  async (req, res) => {
             password: password,
             dob: dob,
             gender: gender
-        })
+        }, { runValidators: true })
         res.send("User Updated Successfully!")
     }
     catch(err){
-        res.status(400).send(err.message);
+        let custom_errors = {}
+        for (const field in err.errors) {
+            custom_errors[field] = err.errors[field].message;
+        }
+        res.status(403).send( custom_errors );
     }
 })
 app.post('/addExercise', async (req, res) => {    
@@ -148,11 +153,15 @@ app.post('/addExercise', async (req, res) => {
         });
         const a = await User.findByIdAndUpdate({_id: userId}, { $push: { exercises: result._id } });
         res.send("Exercise added successfully!");
-        console.log(result);
+        // console.log(result);
     }
     catch(err){
-        res.status(400).send(err.message);
-    } 
+        let custom_errors = {}
+        for (const field in err.errors) {
+            custom_errors[field] = err.errors[field].message;
+        }
+        res.status(403).send( custom_errors );
+    }
 })
 
 app.put('/updateExerciseById', async (req, res)=>{
@@ -160,11 +169,15 @@ app.put('/updateExerciseById', async (req, res)=>{
     var myQuery = { _id: _id };
     var newValues = { $set: {name: name, description: description, type: type, duration: duration, date: date } };
     try {
-        const result = await Exercise.updateOne( myQuery, newValues )
+        const result = await Exercise.updateOne( myQuery, newValues, { runValidators: true } )
         res.send("Exercise updated successfully!")
     }
     catch(err){
-        res.status(400).send(err.message);
+        let custom_errors = {}
+        for (const field in err.errors) {
+            custom_errors[field] = err.errors[field].message;
+        }
+        res.status(403).send( custom_errors );
     }
 })
 
