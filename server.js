@@ -236,7 +236,9 @@ app.get('/logout', (req, res)=>{
     res.send("Logged Out Successfully!")
 })
 
+const PORT = process.env.PORT || 3000;
+
 // Listening Server
-app.listen(3000, ()=>{
+app.listen(PORT, ()=>{
     console.log("App is listening at port 3000")
 })
