@@ -4,7 +4,7 @@ const Authentication = (app, JWT) => {
         // const Token =  req.cookies.Token;
         const Token =  req.headers.authorization;
         if (Token==null) {
-            res.status(400).send("No Token Available!")
+            res.status(400).send("Please Login First!")
         }
         else {
             JWT.verify(Token, process.env.JWT_KEY, (err,user) => {
